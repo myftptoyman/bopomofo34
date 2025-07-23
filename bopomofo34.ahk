@@ -20,8 +20,7 @@ IsChineseIMESimple() {
         IMEStatus := DllCall("user32.dll\SendMessageA", "UInt", IMEWnd, "UInt", 0x0283, "Int", 0x0001, "Int", 0)
         IMEStatus2 := DllCall("user32.dll\SendMessageA", "UInt", IMEWnd, "UInt", 0x0283, "Int", 0x0005, "Int", 0)
         langID := layout & 0xFFFF
-        
-        return (langID = 1033 || langID = 1028 || langID = 2052 || langID = 3076 || langID = 4100 || langID = 5124) && (IMEStatus >= 1)
+        return (langID = 1028 || langID = 2052 || langID = 3076 || langID = 4100 || langID = 5124) && (IMEStatus >= 1)
     }
     catch e {
         return false
