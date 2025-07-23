@@ -167,8 +167,13 @@ return
 
 $o::
 if (CheckZhuyinMode()) {
-    ProcessZhuyinInput(Chr(0x311F))  ; ㄟ
-    send o
+    if (ZhuyinState = "INIT") {
+        ProcessZhuyinInput(Chr(0x3109))  ; ㄉ
+        send 2
+    } else {
+        ProcessZhuyinInput(Chr(0x311F))  ; ㄟ
+        send o
+    }
 } else {
     Send o
 }
@@ -310,10 +315,29 @@ if (CheckZhuyinMode()) {
 }
 return
 
+$,::
+if (CheckZhuyinMode()) {
+    if (ZhuyinState = "INIT") {
+        ProcessZhuyinInput(Chr(0x3105))  ; ㄅ
+        send 1
+    } else {
+        ProcessZhuyinInput(Chr(0x311D))  ; ㄝ
+        send `,
+    }
+} else {
+    Send `,
+}
+return
+
 $/::
 if (CheckZhuyinMode()) {
-    ProcessZhuyinInput(Chr(0x3125))  ; ㄥ
-    send /
+    if (ZhuyinState = "INIT") {
+        ProcessZhuyinInput(Chr(0x3113))  ; ㄓ
+        send 5
+    } else {
+        ProcessZhuyinInput(Chr(0x3125))  ; ㄥ
+        send /
+    }
 } else {
     Send /
 }
@@ -392,12 +416,30 @@ if (CheckZhuyinMode()) {
 }
 return
 
+$[::
+if (CheckZhuyinMode()) {
+    ProcessZhuyinInput(Chr(0x311A))  ; ㄚ
+    send 8
+} else {
+    Send [
+}
+return
+
 $9::
 if (CheckZhuyinMode()) {
     ProcessZhuyinInput(Chr(0x311E))  ; ㄞ
     send 9
 } else {
     Send 9
+}
+return
+
+$]::
+if (CheckZhuyinMode()) {
+    ProcessZhuyinInput(Chr(0x311E))  ; ㄞ
+    send 9
+} else {
+    Send ]
 }
 return
 
@@ -410,6 +452,15 @@ if (CheckZhuyinMode()) {
 }
 return
 
+$'::
+if (CheckZhuyinMode()) {
+    ProcessZhuyinInput(Chr(0x3122))  ; ㄢ
+    send 0
+} else {
+    Send '
+}
+return
+
 $-::
 if (CheckZhuyinMode()) {
     ProcessZhuyinInput(Chr(0x3126))  ; ㄦ
@@ -419,12 +470,12 @@ if (CheckZhuyinMode()) {
 }
 return
 
-$[::
+$"::
 if (CheckZhuyinMode()) {
     ProcessZhuyinInput(Chr(0x3126))  ; ㄦ
-    send -
+    send "
 } else {
-    Send [
+    Send "
 }
 return
 
