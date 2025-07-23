@@ -473,7 +473,7 @@ return
 $"::
 if (CheckZhuyinMode()) {
     ProcessZhuyinInput(Chr(0x3126))  ; ㄦ
-    send "
+    send -
 } else {
     Send "
 }
