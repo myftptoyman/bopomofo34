@@ -1,6 +1,5 @@
 
-
-InitWindowDetection()
+; InitWindowDetection()
 
 RemoveResetToolTip() {
     ToolTip,,,,3
@@ -703,7 +702,7 @@ ProcessZhuyinInput(char) {
     ; 檢查是否到達最終狀態（有聲調）
     if (InStr(ZhuyinState, "_TONE")) {
         ; 完成一個音節，回到 INIT
-        SetTimer, ResetZhuyinFSM, 1000
+        SetTimer, ResetZhuyinFSM, 10
     }
     
     ; 顯示 FSM 狀態
@@ -786,50 +785,50 @@ ShowZhuyinFSM() {
     global ZhuyinState, ZhuyinBuffer
     
     ; stateDisplay := "=== Zhuyin FSM ===" . "`n"
-    stateDisplay .= "Current State: [" . ZhuyinState . "]" . "`n"
+    ; stateDisplay .= "Current State: [" . ZhuyinState . "]" . "`n"
     stateDisplay .= "Input Buffer: [" . ZhuyinBuffer . "]" . "`n"
     ; stateDisplay .= "==================" . "`n"
     
     ; State flow diagram
     ; stateDisplay .= "State Flow:" . "`n"
     
-    ; Show different flow diagrams based on current state
-    if (ZhuyinState = "INIT") {
-        stateDisplay .= "[*] INIT -> Waiting for input" . "`n"
-        ; stateDisplay .= "Can input: Consonant(1)/Medial(2)/Vowel(3)"
-    }
-    else if (ZhuyinState = "CONSONANT") {
-        stateDisplay .= "INIT -> [*] CONSONANT" . "`n"
-        ; stateDisplay .= "Can input: Medial(2)/Vowel(3)/Tone(4)"
-    }
-    else if (ZhuyinState = "CONSONANT_MEDIAL") {
-        stateDisplay .= "INIT -> CONSONANT -> [*] CONSONANT_MEDIAL" . "`n"
-        ; stateDisplay .= "Can input: Vowel(3)/Tone(4)"
-    }
-    else if (ZhuyinState = "CONSONANT_VOWEL") {
-        stateDisplay .= "INIT -> CONSONANT -> [*] CONSONANT_VOWEL" . "`n"
-        ; stateDisplay .= "Can input: Tone(4)"
-    }
-    else if (ZhuyinState = "CONSONANT_MEDIAL_VOWEL") {
-        stateDisplay .= "INIT -> CONSONANT -> MEDIAL -> [*] CONSONANT_MEDIAL_VOWEL" . "`n"
-        ; stateDisplay .= "Can input: Tone(4)"
-    }
-    else if (ZhuyinState = "MEDIAL") {
-        stateDisplay .= "INIT -> [*] MEDIAL" . "`n"
-        ; stateDisplay .= "Can input: Vowel(3)/Tone(4)"
-    }
-    else if (ZhuyinState = "VOWEL") {
-        stateDisplay .= "INIT -> [*] VOWEL" . "`n"
-        ; stateDisplay .= "Can input: Tone(4)"
-    }
-    else if (ZhuyinState = "MEDIAL_VOWEL") {
-        stateDisplay .= "INIT -> MEDIAL -> [*] MEDIAL_VOWEL" . "`n"
-        ; stateDisplay .= "Can input: Tone(4)"
-    }
-    else if (InStr(ZhuyinState, "_TONE")) {
-        stateDisplay .= "Complete syllable: [*] " . StrReplace(ZhuyinState, "_TONE", "") . "_TONE" . "`n"
-        ; stateDisplay .= "*** COMPLETE! Back to INIT in 1 sec ***"
-    }
+    ; ; Show different flow diagrams based on current state
+    ; if (ZhuyinState = "INIT") {
+    ;     stateDisplay .= "[*] INIT -> Waiting for input" . "`n"
+    ;     ; stateDisplay .= "Can input: Consonant(1)/Medial(2)/Vowel(3)"
+    ; }
+    ; else if (ZhuyinState = "CONSONANT") {
+    ;     stateDisplay .= "INIT -> [*] CONSONANT" . "`n"
+    ;     ; stateDisplay .= "Can input: Medial(2)/Vowel(3)/Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "CONSONANT_MEDIAL") {
+    ;     stateDisplay .= "INIT -> CONSONANT -> [*] CONSONANT_MEDIAL" . "`n"
+    ;     ; stateDisplay .= "Can input: Vowel(3)/Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "CONSONANT_VOWEL") {
+    ;     stateDisplay .= "INIT -> CONSONANT -> [*] CONSONANT_VOWEL" . "`n"
+    ;     ; stateDisplay .= "Can input: Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "CONSONANT_MEDIAL_VOWEL") {
+    ;     stateDisplay .= "INIT -> CONSONANT -> MEDIAL -> [*] CONSONANT_MEDIAL_VOWEL" . "`n"
+    ;     ; stateDisplay .= "Can input: Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "MEDIAL") {
+    ;     stateDisplay .= "INIT -> [*] MEDIAL" . "`n"
+    ;     ; stateDisplay .= "Can input: Vowel(3)/Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "VOWEL") {
+    ;     stateDisplay .= "INIT -> [*] VOWEL" . "`n"
+    ;     ; stateDisplay .= "Can input: Tone(4)"
+    ; }
+    ; else if (ZhuyinState = "MEDIAL_VOWEL") {
+    ;     stateDisplay .= "INIT -> MEDIAL -> [*] MEDIAL_VOWEL" . "`n"
+    ;     ; stateDisplay .= "Can input: Tone(4)"
+    ; }
+    ; else if (InStr(ZhuyinState, "_TONE")) {
+    ;     stateDisplay .= "Complete syllable: [*] " . StrReplace(ZhuyinState, "_TONE", "") . "_TONE" . "`n"
+    ;     ; stateDisplay .= "*** COMPLETE! Back to INIT in 1 sec ***"
+    ; }
     
     ToolTip, %stateDisplay%, 100, 100, 3
 }
