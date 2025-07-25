@@ -1,4 +1,4 @@
-# Vortex core plus Keyboard
+;Vortex core plus Keyboard
 
 #NoEnv
 #SingleInstance Force
@@ -76,7 +76,13 @@ return
 ; ==================== Layer Tap 功能 ====================
 
 ; TS(_L3) - 空格键 Layer Tap
-Space::
+*Space::
+    ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
+    if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
+        Send, {Blind}{Space}
+        return
+    }
+
     ; 检查是否为连续空格（双击空格）
     global lastSpaceTime, doubleSpaceHold
     if (lastSpaceTime = "")  ; 初始化
@@ -221,6 +227,8 @@ Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
 Enter::SendKey("enter")
 Backspace::SendKey("backspace")
+
+Space::SendKey("space")
 
 ; Tab::SendKey("tab")
 ; Delete::SendKey("delete")
@@ -541,5 +549,3 @@ RemoveToolTip:
     ToolTip
     SetTimer, RemoveToolTip, Off
 return
-
-; ==================== 调试和控制 ====================
