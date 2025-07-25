@@ -486,6 +486,15 @@ if (CheckZhuyinMode()) {
 }
 return
 
+$#Space::
+send #{Space}
+sleep 100
+if (CheckZhuyinMode()) {
+    ; 重置 FSM 到 INIT 狀態
+    ResetZhuyinFSM()
+}
+return
+
 $Esc::
 if (CheckZhuyinMode()) {
     ; 重置 FSM 到 INIT 狀態
