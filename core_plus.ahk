@@ -253,8 +253,8 @@ Right::SendKey("Right")
 Esc::SendSpecialKey("esc")
 +Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
-Enter::SendKey("enter")
-Backspace::SendKey("backspace")
+Enter::SendSpecialKey("enter")
+Backspace::SendSpecialKey("backspace")
 
 #if
 
@@ -346,6 +346,8 @@ SendSpecialKey(key) {
             Send, ~
         } else if GetKeyState("Ctrl", "P") {
             Send, ``
+        } else if GetKeyState("Space", "P") {
+            Send, ``
         } else {
             Send, {Esc}
         }
@@ -354,12 +356,16 @@ SendSpecialKey(key) {
     } else if (key = "enter") {
         if GetKeyState("Shift", "P") {
             Send, |
+        } else if GetKeyState("Space", "P") {
+            Send, \
         } else {
             Send, {Enter}
         }
     } else if (key = "backspace") {
         if GetKeyState("Shift", "P") {
             Send, -
+        } else if GetKeyState("Space", "P") {
+            Send, _
         } else {
             Send, {Backspace}
         }
