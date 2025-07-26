@@ -86,6 +86,7 @@ $Space::
         SendKey("space")
         return
     }
+    Send, {Space}
 
     ; 检查是否为连续空格（双击空格）
     global lastSpaceTime, doubleSpaceHold, doubleSpaceHoldFirst
@@ -100,7 +101,7 @@ $Space::
     StartTime := A_TickCount
 
     ; 判断是否为双击空格
-    if (StartTime - lastSpaceTime < 400) && !doubleSpaceHoldFirst {
+    if (StartTime - lastSpaceTime < 500) && !doubleSpaceHoldFirst {
         ; 双击空格，进入持续空格模式
         doubleSpaceHold := true
         L3_Active := true  ; 激活L3层
@@ -110,6 +111,7 @@ $Space::
                 break
             if !doubleSpaceHoldFirst {
                 doubleSpaceHoldFirst := true
+                Sleep, 100
             } else {
                 Send, {Space}
             }
@@ -129,14 +131,14 @@ $Space::
     ; 等待释放
     KeyWait, Space
 
-    HoldTime := A_TickCount - StartTime
+    ; HoldTime := A_TickCount - StartTime
     L3_Active := false  ; 释放时停用L3层
 
-    if (HoldTime < 200) {
-        ; 短按：发送空格
-        Send, {Space}
+    ; if (HoldTime < 200) {
+    ;     ; 短按：发送空格
+    ;     ; Send, {Space}
         lastSpaceTime := StartTime
-    }
+    ; }
     ; 长按：什么都不做（已经通过L3层处理了）
 
     SpacePressed := false
