@@ -138,6 +138,7 @@ return
 
 ; TGU(_L6) - Win键 Layer Tap  
 LWin::
++LWin::
     GuiPressed := true
     StartTime := A_TickCount
     L6_Active := true  ; 按下时立即激活L6层
@@ -238,18 +239,18 @@ Backspace::SendKey("backspace")
 
 #if
 
-#if IsChineseIMESimple() && GetKeyState("RWin", "P") && !GetKeyState("LShift", "P")
+#if IsChineseIMESimple() && GetKeyState("RWin", "P") && !GetKeyState("LWin", "P") && !GetKeyState("LShift", "P")
 $`;::Send {Left}
 $'::Send {Right}
 $[::Send {Up}
 $/::Send {Down}
 #if
 
-#if IsChineseIMESimple() && GetKeyState("RWin", "P") && GetKeyState("LShift", "P")
-$`;::Send +{Left}
-$'::Send +{Right}
-$[::Send +{Up}
-$/::Send +{Down}
+#if IsChineseIMESimple() && GetKeyState("RWin", "P") && !GetKeyState("LWin", "P") && GetKeyState("LShift", "P")
+$+`;::Send +{Left}
+$+'::Send +{Right}
+$+[::Send +{Up}
+$+/::Send +{Down}
 #if
 
 #if IsChineseIMESimple() && GetKeyState("LWin", "P") && !GetKeyState("LShift", "P")

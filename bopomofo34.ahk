@@ -832,7 +832,7 @@ ShowZhuyinFSM() {
     
     ; stateDisplay := "=== Zhuyin FSM ===" . "`n"
     ; stateDisplay .= "Current State: [" . ZhuyinState . "]" . "`n"
-    stateDisplay .= "Input Buffer: [" . ZhuyinBuffer . "]" . "`n"
+    stateDisplay .= "bopomofo: [" . ZhuyinBuffer . "]" . "`n"
     ; stateDisplay .= "==================" . "`n"
     
     ; State flow diagram
@@ -876,5 +876,5 @@ ShowZhuyinFSM() {
     ;     ; stateDisplay .= "*** COMPLETE! Back to INIT in 1 sec ***"
     ; }
     
-    ToolTip, %stateDisplay%, 100, 100, 3
+    ; ToolTip, %stateDisplay%, 100, 100, 3
 }
