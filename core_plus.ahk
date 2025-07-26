@@ -24,7 +24,6 @@ GuiPressed := false
 
 ; ==================== 层激活快捷键 ====================
 ; 您可以根据需要修改这些快捷键组合
-#if IsChineseIMESimple() = false
 ; MO(_L1) - 方向键层（RWIN激活）
 RWin::
 RWin up::
@@ -75,7 +74,10 @@ F12 up::
     }
 return
 
+#if
+
 ; ==================== Layer Tap 功能 ====================
+#if IsChineseIMESimple() = false
 
 ; TS(_L3) - 空格键 Layer Tap
 Space::
@@ -132,6 +134,8 @@ Space::
     SpacePressed := false
 return
 
+#if
+
 ; TGU(_L6) - Win键 Layer Tap  
 LWin::
     GuiPressed := true
@@ -152,6 +156,8 @@ LWin::
     
     GuiPressed := false
 return
+
+#if IsChineseIMESimple() = false
 
 ; ==================== 键位重映射 ====================
 ; 基础字母和数字键
