@@ -232,12 +232,15 @@ Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
 Enter::SendKey("enter")
 Backspace::SendKey("backspace")
+
 #if
 
-; Space::SendKey("space")
-
-; Tab::SendKey("tab")
-; Delete::SendKey("delete")
+#if IsChineseIMESimple() && GetKeyState("RWin", "P")
+$`;::Send {Left}
+$'::Send {Right}
+$[::Send {Up}
+$/::Send {Down}
+#if
 
 ; ==================== 核心发送函数 ====================
 
