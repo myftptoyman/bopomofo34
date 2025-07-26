@@ -242,6 +242,13 @@ $[::Send {Up}
 $/::Send {Down}
 #if
 
+#if IsChineseIMESimple() && GetKeyState("LWin", "P")
+$`;::Send {Home}
+$'::Send {End}
+$[::Send {PgUp}
+$/::Send {PgDn}
+#if
+
 ; ==================== 核心发送函数 ====================
 
 SendKey(key) {
