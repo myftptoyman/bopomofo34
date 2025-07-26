@@ -1,5 +1,5 @@
 
-; InitWindowDetection()
+InitWindowDetection()
 
 RemoveResetToolTip() {
     ToolTip,,,,3
