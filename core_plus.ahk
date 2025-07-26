@@ -80,7 +80,7 @@ return
 #if IsChineseIMESimple() = false
 
 ; TS(_L3) - 空格键 Layer Tap
-Space::
+$Space::
     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
         SendKey("space")
@@ -88,17 +88,19 @@ Space::
     }
 
     ; 检查是否为连续空格（双击空格）
-    global lastSpaceTime, doubleSpaceHold
+    global lastSpaceTime, doubleSpaceHold, doubleSpaceHoldFirst
     if (lastSpaceTime = "")  ; 初始化
         lastSpaceTime := 0
-    if (doubleSpaceHold = "")  ; 初始化
+    if (doubleSpaceHold = "") { ; 初始化
         doubleSpaceHold := false
+        doubleSpaceHoldFirst := false
+    }
 
     SpacePressed := true
     StartTime := A_TickCount
 
     ; 判断是否为双击空格
-    if (StartTime - lastSpaceTime < 400) {
+    if (StartTime - lastSpaceTime < 400) && !doubleSpaceHoldFirst {
         ; 双击空格，进入持续空格模式
         doubleSpaceHold := true
         L3_Active := true  ; 激活L3层
@@ -106,7 +108,11 @@ Space::
         Loop {
             if !GetKeyState("Space", "P")
                 break
-            Send, {Space}
+            if !doubleSpaceHoldFirst {
+                doubleSpaceHoldFirst := true
+            } else {
+                Send, {Space}
+            }
             Sleep, 50  ; 间隔可调整
         }
         L3_Active := false
@@ -114,6 +120,8 @@ Space::
         lastSpaceTime := 0  ; 重置，避免三连空格
         SpacePressed := false
         return
+    } else {
+        doubleSpaceHoldFirst := false
     }
 
     L3_Active := true  ; 按下时立即激活L3层
@@ -201,6 +209,17 @@ v::SendKey("v")
 b::SendKey("b")
 n::SendKey("n")
 m::SendKey("m")
+
++q::SendKey("q")
++w::SendKey("w")
++e::SendKey("e")
++r::SendKey("r")
++t::SendKey("t")
++y::SendKey("y")
++u::SendKey("u")
++i::SendKey("i")
++o::SendKey("o")
++p::SendKey("p")
 
 ; 符号键
 [::SendKey("[")
@@ -313,7 +332,11 @@ SendKey(key) {
     }
     
     ; 基础层 (L0)]
-    Send, {%key%}
+    if GetKeyState("Shift", "P") {
+        Send, +{%key%}
+    } else {
+        Send, {%key%}
+    }
 }
 
 SendSpecialKey(key) {
@@ -381,32 +404,62 @@ SendL1Key(key) {
 
 ; L2层 - 功能键层
 SendL2Key(key) {
-    if (key = "q") {
-        Send, {F1}
-    } else if (key = "w") {
-        Send, {F2}
-    } else if (key = "e") {
-        Send, {F3}
-    } else if (key = "r") {
-        Send, {F4}
-    } else if (key = "t") {
-        Send, {F5}
-    } else if (key = "y") {
-        Send, {F6}
-    } else if (key = "u") {
-        Send, {F7}
-    } else if (key = "i") {
-        Send, {F8}
-    } else if (key = "o") {
-        Send, {F9}
-    } else if (key = "p") {
-        Send, {F10}
-    } else if (key = "[") {
-        Send, {F11}
-    } else if (key = "]") {
-        Send, {F12}
+    if GetKeyState("LShift", "P") {
+        if (key = "q") {
+            Send, +{F1}
+        } else if (key = "w") {
+            Send, +{F2}
+        } else if (key = "e") {
+            Send, +{F3}
+        } else if (key = "r") {
+            Send, +{F4}
+        } else if (key = "t") {
+            Send, +{F5}
+        } else if (key = "y") {
+            Send, +{F6}
+        } else if (key = "u") {
+            Send, +{F7}
+        } else if (key = "i") {
+            Send, +{F8}
+        } else if (key = "o") {
+            Send, +{F9}
+        } else if (key = "p") {
+            Send, +{F10}
+        } else if (key = "[") {
+            Send, +{F11}
+        } else if (key = "]") {
+            Send, +{F12}
+        } else {
+            Send, +{%key%}
+        }
     } else {
-        Send, {%key%}
+        if (key = "q") {
+            Send, {F1}
+        } else if (key = "w") {
+            Send, {F2}
+        } else if (key = "e") {
+            Send, {F3}
+        } else if (key = "r") {
+            Send, {F4}
+        } else if (key = "t") {
+            Send, {F5}
+        } else if (key = "y") {
+            Send, {F6}
+        } else if (key = "u") {
+            Send, {F7}
+        } else if (key = "i") {
+            Send, {F8}
+        } else if (key = "o") {
+            Send, {F9}
+        } else if (key = "p") {
+            Send, {F10}
+        } else if (key = "[") {
+            Send, {F11}
+        } else if (key = "]") {
+            Send, {F12}
+        } else {
+            Send, {%key%}
+        }
     }
 }
 
@@ -497,6 +550,8 @@ SendL6Key(key) {
             Send, +{End} ; Shift+Right - 按词右移
         } else if (key = "/" || key = "Down") {
             Send, +{PgDn}   ; Shift+End - 跳到文档末尾
+        } else if (key = "e") {
+            Send, +{F3}
         } else {
             Send, +#{%key%}  ; 其他键加Shift+Win
         }
@@ -510,6 +565,8 @@ SendL6Key(key) {
             Send, {End}
         } else if (key = "/" || key = "Down") {
             Send, {PgDn}
+        } else if (key = "e") {
+            Send, {F3}
         } else {
             Send, #{%key%}  ; 其他键加Win键
         }
