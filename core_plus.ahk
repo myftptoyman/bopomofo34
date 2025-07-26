@@ -147,6 +147,8 @@ return
 ; TGU(_L6) - Win键 Layer Tap  
 LWin::
 +LWin::
+^LWin::
++^LWin
     GuiPressed := true
     StartTime := A_TickCount
     L6_Active := true  ; 按下时立即激活L6层
@@ -238,6 +240,22 @@ m::SendKey("m")
 +.::SendKey(".")
 +/::SendKey("/")
 
+^[::SendKey("[")
+^]::SendKey("]")
+^`;::SendKey(";")
+^'::SendKey("'")
+^,::SendKey(",")
+^.::SendKey(".")
+^/::SendKey("/")
+
++^[::SendKey("[")
++^]::SendKey("]")
++^`;::SendKey(";")
++^'::SendKey("'")
++^,::SendKey(",")
++^.::SendKey(".")
++^/::SendKey("/")
+
 ; 标准方向键
 Left::SendKey("Left")
 Down::SendKey("Down")
@@ -248,6 +266,16 @@ Right::SendKey("Right")
 +Down::SendKey("Down")
 +Up::SendKey("Up")
 +Right::SendKey("Right")
+
+^Left::SendKey("Left")
+^Down::SendKey("Down")
+^Up::SendKey("Up")
+^Right::SendKey("Right")
+
++^Left::SendKey("Left")
++^Down::SendKey("Down")
++^Up::SendKey("Up")
++^Right::SendKey("Right")
 
 ; 特殊键
 Esc::SendSpecialKey("esc")
@@ -333,9 +361,17 @@ SendKey(key) {
     
     ; 基础层 (L0)]
     if GetKeyState("Shift", "P") {
-        Send, +{%key%}
+        if GetKeyState("Ctrl", "P") {
+            Send, ^+{%key%}
+        } else {
+            Send, +{%key%}
+        }
     } else {
-        Send, {%key%}
+        if GetKeyState("Ctrl", "P") {
+            Send, ^{%key%}
+        } else {
+            Send, {%key%}
+        }
     }
 }
 
@@ -380,30 +416,60 @@ SendSpecialKey(key) {
 SendL1Key(key) {
     ; 检测左Shift是否按下
     if GetKeyState("LShift", "P") {
-        ; 左Shift+L1层的组合功能（选择文本）
-        if (key = "[") {
-            Send, +{Up}    ; Shift+Up - 向上选择文本
-        } else if (key = ";") {
-            Send, +{Left} ; Shift+Left - 按词向左选择
-        } else if (key = "'") {
-            Send, +{Right} ; Shift+Right - 按词向右选择
-        } else if (key = "/") {
-            Send, +{Down}  ; Shift+Down - 向下选择文本
+        if !GetKeyState("LCtrl", "P") {
+            ; 左Shift+L1层的组合功能（选择文本）
+            if (key = "[") {
+                Send, +{Up}    ; Shift+Up - 向上选择文本
+            } else if (key = ";") {
+                Send, +{Left} ; Shift+Left - 按词向左选择
+            } else if (key = "'") {
+                Send, +{Right} ; Shift+Right - 按词向右选择
+            } else if (key = "/") {
+                Send, +{Down}  ; Shift+Down - 向下选择文本
+            } else {
+                Send, +{%key%}   ; 其他键加Shift
+            }
         } else {
-            Send, +{%key%}   ; 其他键加Shift
+            ; 左Shift+左Ctrl+L1层的组合功能（选择文本）
+            if (key = "[") {
+                Send, ^+{Up}    ; Shift+Ctrl+Up - 向上选择文本
+            } else if (key = ";") {
+                Send, ^+{Left} ; Shift+Ctrl+Left - 按词向左选择
+            } else if (key = "'") {
+                Send, ^+{Right} ; Shift+Ctrl+Right - 按词向右选择
+            } else if (key = "/") {
+                Send, ^+{Down}  ; Shift+Ctrl+Down - 向下选择文本
+            } else {
+                Send, ^+{%key%}   ; 其他键加Shift+Ctrl
+            }
         }
     } else {
-        ; 原有的L1层功能（无左Shift）
-        if (key = "[") {
-            Send, {Up}
-        } else if (key = ";") {
-            Send, {Left}
-        } else if (key = "'") {
-            Send, {Right}
-        } else if (key = "/") {
-            Send, {Down}
+        if !GetKeyState("LCtrl", "P") {
+            ; 原有的L1层功能（无左Shift）
+            if (key = "[") {
+                Send, {Up}
+            } else if (key = ";") {
+                Send, {Left}
+            } else if (key = "'") {
+                Send, {Right}
+            } else if (key = "/") {
+                Send, {Down}
+            } else {
+                Send, {%key%}  ; 其他键保持原样
+            }
         } else {
-            Send, {%key%}  ; 其他键保持原样
+            ; 原有的L1层功能（无左Shift）
+            if (key = "[") {
+                Send, ^{Up}
+            } else if (key = ";") {
+                Send, ^{Left}
+            } else if (key = "'") {
+                Send, ^{Right}
+            } else if (key = "/") {
+                Send, ^{Down}
+            } else {
+                Send, ^{%key%}  ; 其他键保持原样
+            }
         }
     }
 }
