@@ -479,19 +479,19 @@ return
 
 $Space::
 if (CheckZhuyinMode()) {
-    ProcessZhuyinInput(" ")  ; 一聲
-    send {Space}
+    if GetKeyState("LWin", "P") {
+        send #{Space}
+        sleep 100
+        if (CheckZhuyinMode()) {
+            ; 重置 FSM 到 INIT 狀態
+            ResetZhuyinFSM()
+        }
+    } else {
+        ProcessZhuyinInput(" ")  ; 一聲
+        send {Space}
+    }
 } else {
     Send {Space}
-}
-return
-
-$#Space::
-send #{Space}
-sleep 100
-if (CheckZhuyinMode()) {
-    ; 重置 FSM 到 INIT 狀態
-    ResetZhuyinFSM()
 }
 return
 

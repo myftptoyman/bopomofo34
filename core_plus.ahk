@@ -6,6 +6,8 @@
 SendMode Input
 SetBatchLines -1
 
+#include bopomofo34.ahk
+
 ; 全局变量
 global CurrentLayer := 0
 global L1_Active := false
@@ -76,6 +78,7 @@ return
 ; ==================== Layer Tap 功能 ====================
 
 ; TS(_L3) - 空格键 Layer Tap
+#if IsChineseIMESimple() = false
 Space::
     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
@@ -129,6 +132,7 @@ Space::
 
     SpacePressed := false
 return
+#if
 
 ; TGU(_L6) - Win键 Layer Tap  
 LWin::
@@ -153,6 +157,7 @@ return
 
 ; ==================== 键位重映射 ====================
 ; 基础字母和数字键
+#if IsChineseIMESimple() = false
 1::SendKey("1")
 2::SendKey("2")
 3::SendKey("3")
@@ -227,6 +232,7 @@ Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
 Enter::SendKey("enter")
 Backspace::SendKey("backspace")
+#if
 
 ; Space::SendKey("space")
 
