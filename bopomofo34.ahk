@@ -5,6 +5,25 @@ RemoveResetToolTip() {
     ToolTip,,,,3
 }
 
+
+IsOnChineseIME() {
+    try {
+        DetectHiddenWindows, On
+        VarSetCapacity(guiThreadInfo, 72, 0) ; x64 結構大小為 72 bytes
+        NumPut(72, guiThreadInfo, 0, "UInt")
+        DllCall("GetGUIThreadInfo", "UInt", 0, "Ptr", &guiThreadInfo)
+        hWnd := NumGet(guiThreadInfo, 16, "Ptr") ; x64 offset 為 16
+
+        threadId := DllCall("GetWindowThreadProcessId", "Ptr", hWnd, "Ptr", 0, "UInt")
+        layout := DllCall("GetKeyboardLayout", "UInt", threadId, "Ptr")
+        langID := layout & 0xFFFF
+        return (langID = 1028 || langID = 2052 || langID = 3076 || langID = 4100 || langID = 5124)
+    }
+    catch e {
+        return false
+    }
+}
+
 IsChineseIMESimple() {
     try {
         DetectHiddenWindows, On
@@ -531,6 +550,15 @@ return
     ; 重置 FSM 到 INIT 狀態
     ResetZhuyinFSM()
     RemoveResetToolTip()
+return
+#if
+
+#if IsOnChineseIME() = true && CheckZhuyinMode() = false
+~$Shift::
+    sleep 100
+    ; 重置 FSM 到 INIT 狀態
+    ResetZhuyinFSM()
+    ShowZhuyinFSM()
 return
 #if
 
