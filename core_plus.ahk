@@ -148,7 +148,7 @@ return
 LWin::
 +LWin::
 ^LWin::
-+^LWin
++^LWin::
     GuiPressed := true
     StartTime := A_TickCount
     L6_Active := true  ; 按下时立即激活L6层
