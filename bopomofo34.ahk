@@ -526,7 +526,7 @@ if (CheckZhuyinMode()) {
 return
 
 #if CheckZhuyinMode() = true
-$Shift::
+~$Shift::
     sleep 100
     ; 重置 FSM 到 INIT 狀態
     ResetZhuyinFSM()

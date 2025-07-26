@@ -24,7 +24,7 @@ GuiPressed := false
 
 ; ==================== 层激活快捷键 ====================
 ; 您可以根据需要修改这些快捷键组合
-
+#if IsChineseIMESimple() = false
 ; MO(_L1) - 方向键层（RWIN激活）
 RWin::
 RWin up::
@@ -78,7 +78,6 @@ return
 ; ==================== Layer Tap 功能 ====================
 
 ; TS(_L3) - 空格键 Layer Tap
-#if IsChineseIMESimple() = false
 Space::
     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
@@ -132,7 +131,6 @@ Space::
 
     SpacePressed := false
 return
-#if
 
 ; TGU(_L6) - Win键 Layer Tap  
 LWin::
@@ -157,7 +155,6 @@ return
 
 ; ==================== 键位重映射 ====================
 ; 基础字母和数字键
-#if IsChineseIMESimple() = false
 1::SendKey("1")
 2::SendKey("2")
 3::SendKey("3")
@@ -235,18 +232,32 @@ Backspace::SendKey("backspace")
 
 #if
 
-#if IsChineseIMESimple() && GetKeyState("RWin", "P")
+#if IsChineseIMESimple() && GetKeyState("RWin", "P") && !GetKeyState("LShift", "P")
 $`;::Send {Left}
 $'::Send {Right}
 $[::Send {Up}
 $/::Send {Down}
 #if
 
-#if IsChineseIMESimple() && GetKeyState("LWin", "P")
+#if IsChineseIMESimple() && GetKeyState("RWin", "P") && GetKeyState("LShift", "P")
+$`;::Send +{Left}
+$'::Send +{Right}
+$[::Send +{Up}
+$/::Send +{Down}
+#if
+
+#if IsChineseIMESimple() && GetKeyState("LWin", "P") && !GetKeyState("LShift", "P")
 $`;::Send {Home}
 $'::Send {End}
 $[::Send {PgUp}
 $/::Send {PgDn}
+#if
+
+#if IsChineseIMESimple() && GetKeyState("LWin", "P") && GetKeyState("LShift", "P")
+$+`;::Send +{Home}
+$+'::Send +{End}
+$+[::Send +{PgUp}
+$+/::Send +{PgDn}
 #if
 
 ; ==================== 核心发送函数 ====================
@@ -457,8 +468,6 @@ SendL5Key(key) {
         Send, {_}   ; R(KC_MINS) = _
     } else if (key = "]") {
         Send, {+}   ; R(KC_EQL) = +
-    } else if (key = "'") {
-        Send, {\\}  ; KC_BSLS = \
     } else if (key = "enter") {
         Send, {|}
     } else if (key = "backspace") {
