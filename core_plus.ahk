@@ -76,10 +76,10 @@ return
 ; ==================== Layer Tap 功能 ====================
 
 ; TS(_L3) - 空格键 Layer Tap
-*Space::
+Space::
     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
-        Send, {Blind}{Space}
+        SendKey("space")
         return
     }
 
@@ -142,10 +142,10 @@ LWin::
     HoldTime := A_TickCount - StartTime
     L6_Active := false  ; 释放时停用L6层
     
-    if (HoldTime < 200) {
-        ; 短按：发送Win键
-        Send, {LWin}
-    }
+    ; if (HoldTime < 200) {
+    ;     ; 短按：发送Win键
+    ;     Send, {LWin}
+    ; }
     ; 长按：什么都不做（已经通过L6层处理了）
     
     GuiPressed := false
@@ -228,7 +228,7 @@ Esc::SendSpecialKey("esc")
 Enter::SendKey("enter")
 Backspace::SendKey("backspace")
 
-Space::SendKey("space")
+; Space::SendKey("space")
 
 ; Tab::SendKey("tab")
 ; Delete::SendKey("delete")
