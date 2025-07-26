@@ -641,6 +641,9 @@ SendL6Key(key) {
             Send, {PgDn}
         } else if (key = "e") {
             Send, {F3}
+        } else if (key = "l") {
+            L6_Active := false
+            Send, #{l}
         } else {
             Send, #{%key%}  ; 其他键加Win键
         }
