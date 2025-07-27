@@ -86,7 +86,12 @@ $Space::
         SendKey("space")
         return
     }
-    Send, {Space}
+
+    Sleep, 100
+
+    if !GetKeyState("Space", "P") {
+        Send, {Space}
+    }
 
     ; 检查是否为连续空格（双击空格）
     global lastSpaceTime, doubleSpaceHold, doubleSpaceHoldFirst
