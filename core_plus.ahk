@@ -79,8 +79,10 @@ return
 ; ==================== Layer Tap 功能 ====================
 #if IsChineseIMESimple() = false
 ; transfer to keyboard FN keys
-; ; TS(_L3) - 空格键 Layer Tap
-; $Space::
+; TS(_L3) - 空格键 Layer Tap
+$Space::
+    SendKey("space")
+    return
 ;     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
 ;     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
 ;         SendKey("space")
