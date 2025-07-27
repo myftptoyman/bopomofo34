@@ -78,76 +78,76 @@ return
 
 ; ==================== Layer Tap 功能 ====================
 #if IsChineseIMESimple() = false
+; transfer to keyboard FN keys
+; ; TS(_L3) - 空格键 Layer Tap
+; $Space::
+;     ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
+;     if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
+;         SendKey("space")
+;         return
+;     }
 
-; TS(_L3) - 空格键 Layer Tap
-$Space::
-    ; 检查是否按下了任何修饰键，如果是则直接发送Space，不处理Layer Tap
-    if GetKeyState("LWin", "P") || GetKeyState("RWin", "P") || GetKeyState("Ctrl", "P") || GetKeyState("Alt", "P") || GetKeyState("Shift", "P") {
-        SendKey("space")
-        return
-    }
+;     Sleep, 100
 
-    Sleep, 100
+;     if !GetKeyState("Space", "P") {
+;         Send, {Space}
+;     }
 
-    if !GetKeyState("Space", "P") {
-        Send, {Space}
-    }
+;     ; 检查是否为连续空格（双击空格）
+;     global lastSpaceTime, doubleSpaceHold, doubleSpaceHoldFirst
+;     if (lastSpaceTime = "")  ; 初始化
+;         lastSpaceTime := 0
+;     if (doubleSpaceHold = "") { ; 初始化
+;         doubleSpaceHold := false
+;         doubleSpaceHoldFirst := false
+;     }
 
-    ; 检查是否为连续空格（双击空格）
-    global lastSpaceTime, doubleSpaceHold, doubleSpaceHoldFirst
-    if (lastSpaceTime = "")  ; 初始化
-        lastSpaceTime := 0
-    if (doubleSpaceHold = "") { ; 初始化
-        doubleSpaceHold := false
-        doubleSpaceHoldFirst := false
-    }
+;     SpacePressed := true
+;     StartTime := A_TickCount
 
-    SpacePressed := true
-    StartTime := A_TickCount
+;     ; 判断是否为双击空格
+;     if (StartTime - lastSpaceTime < 500) && !doubleSpaceHoldFirst {
+;         ; 双击空格，进入持续空格模式
+;         doubleSpaceHold := true
+;         L3_Active := true  ; 激活L3层
+;         ; 只要空格按住就持续发送空格
+;         Loop {
+;             if !GetKeyState("Space", "P")
+;                 break
+;             if !doubleSpaceHoldFirst {
+;                 doubleSpaceHoldFirst := true
+;                 Sleep, 100
+;             } else {
+;                 Send, {Space}
+;             }
+;             Sleep, 50  ; 间隔可调整
+;         }
+;         L3_Active := false
+;         doubleSpaceHold := false
+;         lastSpaceTime := 0  ; 重置，避免三连空格
+;         SpacePressed := false
+;         return
+;     } else {
+;         doubleSpaceHoldFirst := false
+;     }
 
-    ; 判断是否为双击空格
-    if (StartTime - lastSpaceTime < 500) && !doubleSpaceHoldFirst {
-        ; 双击空格，进入持续空格模式
-        doubleSpaceHold := true
-        L3_Active := true  ; 激活L3层
-        ; 只要空格按住就持续发送空格
-        Loop {
-            if !GetKeyState("Space", "P")
-                break
-            if !doubleSpaceHoldFirst {
-                doubleSpaceHoldFirst := true
-                Sleep, 100
-            } else {
-                Send, {Space}
-            }
-            Sleep, 50  ; 间隔可调整
-        }
-        L3_Active := false
-        doubleSpaceHold := false
-        lastSpaceTime := 0  ; 重置，避免三连空格
-        SpacePressed := false
-        return
-    } else {
-        doubleSpaceHoldFirst := false
-    }
+;     L3_Active := true  ; 按下时立即激活L3层
 
-    L3_Active := true  ; 按下时立即激活L3层
+;     ; 等待释放
+;     KeyWait, Space
 
-    ; 等待释放
-    KeyWait, Space
+;     ; HoldTime := A_TickCount - StartTime
+;     L3_Active := false  ; 释放时停用L3层
 
-    ; HoldTime := A_TickCount - StartTime
-    L3_Active := false  ; 释放时停用L3层
+;     ; if (HoldTime < 200) {
+;     ;     ; 短按：发送空格
+;     ;     ; Send, {Space}
+;         lastSpaceTime := StartTime
+;     ; }
+;     ; 长按：什么都不做（已经通过L3层处理了）
 
-    ; if (HoldTime < 200) {
-    ;     ; 短按：发送空格
-    ;     ; Send, {Space}
-        lastSpaceTime := StartTime
-    ; }
-    ; 长按：什么都不做（已经通过L3层处理了）
-
-    SpacePressed := false
-return
+;     SpacePressed := false
+; return
 
 #if
 
