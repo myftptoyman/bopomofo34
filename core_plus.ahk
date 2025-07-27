@@ -237,32 +237,24 @@ m::SendKey("m")
 ]::SendKey("]")
 `;::SendKey(";")
 '::SendKey("'")
-,::SendKey(",")
-.::SendKey(".")
 /::SendKey("/")
 
 +[::SendKey("[")
 +]::SendKey("]")
 +`;::SendKey(";")
 +'::SendKey("'")
-+,::SendKey(",")
-+.::SendKey(".")
 +/::SendKey("/")
 
 ^[::SendKey("[")
 ^]::SendKey("]")
 ^`;::SendKey(";")
 ^'::SendKey("'")
-^,::SendKey(",")
-^.::SendKey(".")
 ^/::SendKey("/")
 
 +^[::SendKey("[")
 +^]::SendKey("]")
 +^`;::SendKey(";")
 +^'::SendKey("'")
-+^,::SendKey(",")
-+^.::SendKey(".")
 +^/::SendKey("/")
 
 ; 标准方向键
@@ -292,6 +284,7 @@ Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
 Enter::SendSpecialKey("enter")
 Backspace::SendSpecialKey("backspace")
+
 
 #if
 
@@ -401,16 +394,16 @@ SendSpecialKey(key) {
     } else if (key = "enter") {
         if GetKeyState("Shift", "P") {
             Send, |
-        ; } else if GetKeyState("Space", "P") {
-        ;     Send, \
+        } else if GetKeyState("RCtrl", "P") {
+            Send, \
         } else {
             Send, {Enter}
         }
     } else if (key = "backspace") {
         if GetKeyState("Shift", "P") {
             Send, -
-        ; } else if GetKeyState("Space", "P") {
-        ;     Send, _
+        } else if GetKeyState("RCtrl", "P") {
+            Send, _
         } else {
             Send, {Backspace}
         }
