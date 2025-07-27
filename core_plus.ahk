@@ -391,8 +391,8 @@ SendSpecialKey(key) {
             Send, ~
         } else if GetKeyState("Ctrl", "P") {
             Send, ``
-        } else if GetKeyState("Space", "P") {
-            Send, ``
+        ; } else if GetKeyState("Space", "P") {
+        ;     Send, ``
         } else {
             Send, {Esc}
         }
@@ -401,16 +401,16 @@ SendSpecialKey(key) {
     } else if (key = "enter") {
         if GetKeyState("Shift", "P") {
             Send, |
-        } else if GetKeyState("Space", "P") {
-            Send, \
+        ; } else if GetKeyState("Space", "P") {
+        ;     Send, \
         } else {
             Send, {Enter}
         }
     } else if (key = "backspace") {
         if GetKeyState("Shift", "P") {
             Send, -
-        } else if GetKeyState("Space", "P") {
-            Send, _
+        ; } else if GetKeyState("Space", "P") {
+        ;     Send, _
         } else {
             Send, {Backspace}
         }
