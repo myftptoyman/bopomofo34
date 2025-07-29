@@ -282,9 +282,9 @@ Right::SendKey("Right")
 Esc::SendSpecialKey("esc")
 +Esc::SendSpecialKey("esc")
 ^Esc::SendSpecialKey("esc")
+#Esc::SendSpecialKey("esc")
 Enter::SendSpecialKey("enter")
 Backspace::SendSpecialKey("backspace")
-
 
 #if
 
@@ -383,6 +383,8 @@ SendSpecialKey(key) {
         if GetKeyState("Shift", "P") {
             Send, ~
         } else if GetKeyState("Ctrl", "P") {
+            Send, ^`
+        } else if GetKeyState("LWin", "P") {
             Send, ``
         ; } else if GetKeyState("Space", "P") {
         ;     Send, ``
