@@ -281,10 +281,14 @@ Right::SendKey("Right")
 ; 特殊键
 Esc::SendSpecialKey("esc")
 +Esc::SendSpecialKey("esc")
-^Esc::SendSpecialKey("esc")
+; ^Esc::SendSpecialKey("esc")
 #Esc::SendSpecialKey("esc")
 Enter::SendSpecialKey("enter")
 Backspace::SendSpecialKey("backspace")
+
+^Esc::^`
+; +Esc::Send {~}
+; #Esc::`
 
 #if
 
@@ -382,8 +386,6 @@ SendSpecialKey(key) {
         ; KC_GESC 功能
         if GetKeyState("Shift", "P") {
             Send, ~
-        } else if GetKeyState("Ctrl", "P") {
-            Send, ^`
         } else if GetKeyState("LWin", "P") {
             Send, ``
         ; } else if GetKeyState("Space", "P") {
